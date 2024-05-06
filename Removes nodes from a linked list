@@ -1,38 +1,128 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+Approach 1: Brute Force
+In this approach, we compare each node with all the nodes to its right and remove it if there’s a greater value node to its right.
 
-class Solution:
-    def removeNodes(self, head):
-        """
-        Removes nodes from a linked list which have a greater value anywhere to the right side of them.
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+
+public class Solution {
+    public ListNode removeNodes(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode curr = dummy;
         
-        Args:
-        - head: The head of the linked list.
+        while (curr.next != null) {
+            ListNode temp = curr.next;
+            boolean removed = false;
+            
+            while (temp != null && temp.next != null) {
+                if (temp.next.val > temp.val) {
+                    curr.next = temp.next;
+                    removed = true;
+                    break;
+                }
+                temp = temp.next;
+            }
+            
+            if (!removed) {
+                curr = curr.next;
+            }
+        }
         
-        Returns:
-        - ListNode: The head of the modified linked list.
-        """
-        # Step 1: Transform the linked list into an array
-        nums = []
-        while head:
-            nums.append(head.val)
-            head = head.next
+        return dummy.next;
+    }
+}
+
+Approach 2: Using a Stack
+In this approach, we use a stack to keep track of nodes in decreasing order. We iterate through the linked list and pop nodes from the stack until we find a greater value node.
+
+import java.util.Stack;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+
+public class Solution {
+    public ListNode removeNodes(ListNode head) {
+        Stack<ListNode> stack = new Stack<>();
+        ListNode curr = head;
         
-        # Step 2: Process the array using a stack
-        stack = []
-        for num in nums:
-            while stack and stack[-1] < num:
-                stack.pop()
-            stack.append(num)
+        while (curr != null) {
+            while (!stack.isEmpty() && stack.peek().val < curr.val) {
+                stack.pop();
+            }
+            stack.push(curr);
+            curr = curr.next;
+        }
         
-        # Build the final linked list
-        dummy = ListNode(0)
-        curr = dummy
-        for num in stack:
-            curr.next = ListNode(num)
-            curr = curr.next
+        ListNode dummy = new ListNode(0);
+        ListNode temp = dummy;
+        while (!stack.isEmpty()) {
+            temp.next = stack.pop();
+            temp = temp.next;
+        }
+        temp.next = null;
         
-        return dummy.next
+        return dummy.next;
+    }
+}
+
+Approach 3: Reverse the List
+In this approach, we reverse the linked list and then traverse it. If we find a node with a greater value than the maximum value encountered so far, we remove it.
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+
+public class Solution {
+    public ListNode removeNodes(ListNode head) {
+        // Reverse the linked list
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        // Traverse the reversed list
+        ListNode dummy = new ListNode(0);
+        dummy.next = prev;
+        ListNode temp = dummy;
+        int maxVal = Integer.MIN_VALUE;
+        
+        while (temp.next != null) {
+            if (temp.next.val > maxVal) {
+                maxVal = temp.next.val;
+                temp.next = temp.next.next;
+            } else {
+                temp = temp.next;
+            }
+        }
+        
+        // Reverse the modified list again
+        prev = null;
+        curr = dummy.next;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        return prev;
+    }
+}
