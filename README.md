@@ -18,13 +18,13 @@ Node 3 has nodes with greater values (7) to its right, so it is removed.
 Node 7 has no nodes with greater values to its right, so it remains in the modified list.
 
 ## Approach
-We can solve this problem using different approaches:
+### We can solve this problem using different approaches:
 
-Brute Force: Compare each node with all nodes to its right and remove it if there’s a greater value node to its right.
-Using a Stack: Use a stack to keep track of nodes in decreasing order. Iterate through the linked list and pop nodes from the stack until we find a greater value node.
-Reverse the List: Reverse the linked list and then traverse it. If we find a node with a greater value than the maximum value encountered so far, we remove it.
-##Implementation
-### Approach 1: Brute Force
-### Approach 2: Using a Stack
-### Approach 3: Reverse the List
+#### Brute Force : </br>
+Compare each node with all nodes to its right and remove it if there’s a greater value node to its right. </br>
+#### Using a Stack : </br> 
+Use a stack to keep track of nodes in decreasing order. Iterate through the linked list and pop nodes from the stack until we find a greater value node. </br>
+#### Reverse the List : </br>
+Reverse the linked list and then traverse it. If we find a node with a greater value than the maximum value encountered so far, we remove it. </br>
+
 
