@@ -1,0 +1,38 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def removeNodes(self, head):
+        """
+        Removes nodes from a linked list which have a greater value anywhere to the right side of them.
+        
+        Args:
+        - head: The head of the linked list.
+        
+        Returns:
+        - ListNode: The head of the modified linked list.
+        """
+        # Step 1: Transform the linked list into an array
+        nums = []
+        while head:
+            nums.append(head.val)
+            head = head.next
+        
+        # Step 2: Process the array using a stack
+        stack = []
+        for num in nums:
+            while stack and stack[-1] < num:
+                stack.pop()
+            stack.append(num)
+        
+        # Build the final linked list
+        dummy = ListNode(0)
+        curr = dummy
+        for num in stack:
+            curr.next = ListNode(num)
+            curr = curr.next
+        
+        return dummy.next
